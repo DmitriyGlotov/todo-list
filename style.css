@@ -1,0 +1,236 @@
+body {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  background: burlywood;
+}
+
+.main-elements-control {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 55%;
+  margin: 20px 0px;
+  border: 3px solid chocolate;
+  border-radius: 40px;
+  background-color: blanchedalmond;
+  height: 170px;
+}
+
+h1 {
+  width: 82%;
+  text-align: center;
+}
+
+.bloks {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 90%;
+  height: 60px;
+}
+
+.main-input {
+  width: 62%;
+  height: 25px;
+  font-size: 15px;
+}
+
+.contain-but-main {
+  display: flex;
+  justify-content: space-around;
+  width: 26%;
+}
+
+.but {
+  width: 45px;
+  height: 45px;
+}
+
+.but:hover {
+  -webkit-filter: drop-shadow(3px 5px 5px #000);
+  filter: drop-shadow(3px 5px 5px #000);
+}
+
+
+.page {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
+  width: 55%;
+  padding: 2%;
+  overflow: overlay;
+  height: 550px;
+  margin: 20px 0px;
+  border: 3px solid chocolate;
+  border-radius: 40px;
+  background-color: blanchedalmond;
+}
+
+::-webkit-scrollbar {
+  opacity: 0;
+}
+
+.task {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 90%;
+  margin: 2%;
+}
+
+
+img {
+  width: 25px;
+  height: 25px;
+}
+
+.contain-but {
+  display: flex;
+  justify-content: space-between;
+  width: 25%;
+}
+
+p {
+  width: 60%;
+  text-align: center;
+  font-size: 17px;
+  overflow: auto;
+}
+
+.input-fixed {
+  width: 60%;
+  height: 25px;
+  font-size: 15px;
+  text-align: center;
+}
+
+.done-task {
+  color: grey;
+  text-decoration: line-through;
+  font-style: italic;
+}
+
+.but-non {
+  width: 45px;
+  height: 45px;
+}
+
+@media screen and (max-width: 1030px){
+  .main-elements-control {
+    width: 78%;
+    height: 220px;
+
+  }
+
+  .content-page {
+    width: 78%;
+  }
+
+  h1 {
+    font-size: 60px;
+    margin: 15px;
+  }
+
+  .main-input {
+    height: 42px;
+    font-size: 30px;
+  }
+
+  .contain-but-main {
+    height: 65px;
+    align-items: center;
+  }
+
+  .page {
+    width: 82%;
+    height: 900px;
+  }
+
+  p {
+    font-size: 33px;
+    height: 42px;
+    margin: 0px;
+  }
+
+  .but {
+    width: 65px;
+    height: 65px;
+  }
+
+  .input-fixed {
+    height: 50px;
+    font-size: 30px;
+  }
+}
+
+@media screen and (max-height: 1030px){
+  .page {
+    height: 525px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .main-elements-control {
+    width: 100%;
+    height: 150px;
+  }
+
+  .input-fixed {
+    height: 22px;
+    font-size: 20px;
+  }
+
+  h1 {
+    font-size: 50px;
+    margin: 5px;
+  }
+
+  .main-input {
+    height: 25px;
+    font-size: 20px;
+  }
+
+  .page {
+    width: 95%;
+    height: 460px;
+  }
+
+  p {
+    font-size: 20px;
+    height: 48px;
+  }
+
+  .but {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media screen and (max-height: 815px) {
+  .page {
+    height: 485px
+  }
+}
+
+@media screen and (max-height: 670px) {
+  .page {
+    height: 380px;
+  }
+}
+
+
+@media screen and (max-height: 569px) {
+  .page {
+    height: 295px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  p {
+    font-size: 15px;
+    height: 30px;
+  }
+}
