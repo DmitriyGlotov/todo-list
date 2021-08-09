@@ -169,7 +169,7 @@ p {
 @media screen and (max-height: 1030px){
   .page {
     height: 525px;
-  } 
+  }
 }
 
 @media screen and (max-width: 550px) {
@@ -198,7 +198,7 @@ p {
     height: 460px;
   }
 
-  p{
+  p {
     font-size: 20px;
     height: 48px;
   }
@@ -232,5 +232,5 @@ p {
   p {
     font-size: 15px;
     height: 30px;
-}
+  }
 }

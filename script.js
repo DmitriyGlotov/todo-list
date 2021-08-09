@@ -3,19 +3,19 @@ let valueInput = '';
 let input = null;
 let flagDell = true;
 
-window.onload = function init () {
+window.onload =  init = () =>  {
   input = document.getElementById('add-task');
   input.addEventListener('change', updateValue);
   render();
 }
 
-onClickButton = () => {
+const onClickButton = () => {
   valueInput = valueInput.trim();
   if (valueInput) {
     allTask.push({
       text: valueInput,
       isCheck: false,
-      flag: false,
+      checkButtPen: false,
     });
     localStorage.setItem('tasks', JSON.stringify(allTask));
     valueInput = '';
@@ -24,7 +24,7 @@ onClickButton = () => {
   } else {
     valueInput = '';
     input.value = '';
-    alert ('WTF???');
+    alert ('ERROR');
   }
 }
 
@@ -35,7 +35,7 @@ document.getElementById('add-task').addEventListener('keydown', (e) => {
       allTask.push({
         text: valueInput,
         isCheck: false,
-        flag: false,
+        checkButtPen: false,
       });
       localStorage.setItem('tasks', JSON.stringify(allTask));
       valueInput = '';
@@ -44,17 +44,18 @@ document.getElementById('add-task').addEventListener('keydown', (e) => {
     } else {
       valueInput = '';
       input.value = '';
-      alert ('WTF???');
+      alert ('ERROR');
     }
   }
 });
 
-updateValue = (event) => {
+const updateValue = (event) => {
   valueInput = event.target.value;
 }
 
-render = () => {
+const render = () => {
   const content = document.getElementById('content-page');
+
   while (content.firstChild) {
     content.removeChild(content.firstChild);
   }
@@ -73,7 +74,7 @@ render = () => {
 
     createCheckbox (container, index);
 
-    if (!allTask[index].flag) {
+    if (!allTask[index].checkButtPen) {
       const text = document.createElement('p');
       text.innerText = item.text;
       text.className = item.isCheck ?  'done-task' : 'text-task';
@@ -107,121 +108,132 @@ render = () => {
   })
 }
 
-createButtonDelAll = (containButMain) => {
+const createButtonDelAll = (containButMain) => {
   const butDelAll = document.createElement('input');
   butDelAll.type = 'image';
   butDelAll.className = 'but';
   butDelAll.src = 'delall.png';
-  containButMain.appendChild(butDelAll);
   flagDell = false;
 
   butDelAll.onclick = () => {
-    allTask.splice(0, allTask.length);
+    allTask = [];
     localStorage.clear();
+
     render();
   }
+
+  containButMain.appendChild(butDelAll);
 }
 
-createCheckbox = (container, index) => {
+const createCheckbox = (container, index) => {
   const checkBox = document.createElement('input');
   checkBox.type = 'image';
   checkBox.className = 'but';
-  if (allTask[index].isCheck) {
-    checkBox.src = "checkBoxDone.png";
-  } else {
-    checkBox.src = "checkBox.png";
-  }
+  allTask[index].isCheck ? checkBox.src = "checkBoxDone.png" : checkBox.src = "checkBox.png";
 
   checkBox.onclick = () => {
-      allTask[index].isCheck = !allTask[index].isCheck;
-      localStorage.setItem('tasks', JSON.stringify(allTask));
-      render();
+    allTask[index].isCheck = !allTask[index].isCheck;
+    localStorage.setItem('tasks', JSON.stringify(allTask));
+
+    render();
   }
+
   container.appendChild(checkBox);
 }
 
-createButtonPen = (containBut, index) => {
+const createButtonPen = (containBut, index) => {
   if (!allTask[index].isCheck) {
     const buttonPen = document.createElement('input');
     buttonPen.type = 'image';
     buttonPen.src = 'pencil.png';
     buttonPen.className = 'but';
-    containBut.appendChild(buttonPen);
 
     buttonPen.onclick = () => {
       onClickButtonPen(index);
     }
+
+    containBut.appendChild(buttonPen);
   }
 }
 
-createButtonDel = (containBut, index) => {
+const createButtonDel = (containBut, index) => {
   const buttonDel = document.createElement('input');
   buttonDel.type = 'image';
   buttonDel.src = 'Del.png';
   buttonDel.className = 'but';
-  containBut.appendChild(buttonDel);
 
   buttonDel.onclick = () => {
     onClickButtonDel(index);
   };
+
+  containBut.appendChild(buttonDel);
 }
 
-createButtonCancel = (containBut, index) => {
+const createButtonCancel = (containBut, index) => {
   const butCanc = document.createElement('input');
   butCanc.className = 'but';
   butCanc.type = 'image';
   butCanc.src = 'cancel.png';
-  containBut.appendChild(butCanc);
 
   butCanc.onclick = () => {
-    allTask[index].flag = false;
+    allTask[index].checkButtPen = false;
     localStorage.setItem('tasks', JSON.stringify(allTask));
+
     render();
   }
+
+  containBut.appendChild(butCanc);
 }
 
-createButtonDone = (containBut, input, index) => {
+const createButtonDone = (containBut, input, index) => {
   const butDone = document.createElement('input');
   butDone.className = 'but';
   butDone.type = 'image';
   butDone.src = "check.png";
-  containBut.appendChild(butDone);
 
   butDone.onclick = () => {
-    allTask[index].flag = false;
+    allTask[index].checkButtPen = false;
     input.value = input.value.trim();
+
     if (input.value) allTask[index].text = input.value;
     localStorage.setItem('tasks', JSON.stringify(allTask));
+
     render();
-  }
+  };
 
   input.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
-      allTask[index].flag = false;
+      allTask[index].checkButtPen = false;
       input.value = input.value.trim();
+
       if (input.value) allTask[index].text = input.value;
       localStorage.setItem('tasks', JSON.stringify(allTask));
+
       render();
-    };
-  })
+    }
+  });
+
+  containBut.appendChild(butDone);
 }
 
-
-
-onChangeCheckBox = index => {
+const onChangeCheckBox = index => {
   allTask[index].isCheck = !allTask[index].isCheck;
   localStorage.setItem('tasks', JSON.stringify(allTask));
+
   render();
 }
 
-onClickButtonDel = (index) => {
+const onClickButtonDel = (index) => {
   allTask.splice(index, 1);
   localStorage.setItem('tasks', JSON.stringify(allTask));
+
   render();
 }
 
-onClickButtonPen = (index) => {
-  allTask[index].flag = true;
+const onClickButtonPen = (index) => {
+  allTask[index].checkButtPen= true;
+
   localStorage.setItem('tasks', JSON.stringify(allTask));
+
   render();
 }
