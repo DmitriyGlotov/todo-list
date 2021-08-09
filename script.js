@@ -112,7 +112,7 @@ const createButtonDelAll = (containButMain) => {
   const butDelAll = document.createElement('input');
   butDelAll.type = 'image';
   butDelAll.className = 'but';
-  butDelAll.src = 'delall.png';
+  butDelAll.src = 'images/delall.png';
   flagDell = false;
 
   butDelAll.onclick = () => {
@@ -129,7 +129,7 @@ const createCheckbox = (container, index) => {
   const checkBox = document.createElement('input');
   checkBox.type = 'image';
   checkBox.className = 'but';
-  allTask[index].isCheck ? checkBox.src = "checkBoxDone.png" : checkBox.src = "checkBox.png";
+  allTask[index].isCheck ? checkBox.src = "images/checkBoxDone.png" : checkBox.src = "images/checkBox.png";
 
   checkBox.onclick = () => {
     allTask[index].isCheck = !allTask[index].isCheck;
@@ -145,21 +145,21 @@ const createButtonPen = (containBut, index) => {
   if (!allTask[index].isCheck) {
     const buttonPen = document.createElement('input');
     buttonPen.type = 'image';
-    buttonPen.src = 'pencil.png';
+    buttonPen.src = 'images/pencil.png';
     buttonPen.className = 'but';
 
     buttonPen.onclick = () => {
       onClickButtonPen(index);
     }
 
-    containBut.appendChild(buttonPen);
+  containBut.appendChild(buttonPen);
   }
 }
 
 const createButtonDel = (containBut, index) => {
   const buttonDel = document.createElement('input');
   buttonDel.type = 'image';
-  buttonDel.src = 'Del.png';
+  buttonDel.src = 'images/Del.png';
   buttonDel.className = 'but';
 
   buttonDel.onclick = () => {
@@ -173,7 +173,7 @@ const createButtonCancel = (containBut, index) => {
   const butCanc = document.createElement('input');
   butCanc.className = 'but';
   butCanc.type = 'image';
-  butCanc.src = 'cancel.png';
+  butCanc.src = 'images/cancel.png';
 
   butCanc.onclick = () => {
     allTask[index].checkButtPen = false;
@@ -189,7 +189,7 @@ const createButtonDone = (containBut, input, index) => {
   const butDone = document.createElement('input');
   butDone.className = 'but';
   butDone.type = 'image';
-  butDone.src = "check.png";
+  butDone.src = 'images/check.png';
 
   butDone.onclick = () => {
     allTask[index].checkButtPen = false;
