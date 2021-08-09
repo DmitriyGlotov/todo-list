@@ -129,7 +129,7 @@ const createCheckbox = (container, index) => {
   const checkBox = document.createElement('input');
   checkBox.type = 'image';
   checkBox.className = 'but';
-  allTask[index].isCheck ? checkBox.src = "images/checkBoxDone.png" : checkBox.src = "images/checkBox.png";
+  checkBox.src = `images/${allTask[index].isCheck ? 'checkBoxDone' : 'checkBox'}.png`
 
   checkBox.onclick = () => {
     allTask[index].isCheck = !allTask[index].isCheck;
@@ -152,7 +152,7 @@ const createButtonPen = (containBut, index) => {
       onClickButtonPen(index);
     }
 
-  containBut.appendChild(buttonPen);
+    containBut.appendChild(buttonPen);
   }
 }
 
