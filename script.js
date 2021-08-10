@@ -9,7 +9,7 @@ window.onload =  init = async () =>  {
   const resp = await fetch('http://localhost:8000/allTasks', {
     method: 'GET'
   });
-  let result = await resp.json();
+  const result = await resp.json();
   allTask = result.data;
 
   render();
@@ -35,7 +35,7 @@ const onClickButton = async () => {
         checkButtPen: false,
       })
     });
-    let result = await resp.json();
+    const result = await resp.json();
     allTask = result.data;
     valueInput = '';
     input.value = '';
@@ -123,7 +123,6 @@ const createButtonDelAll = (containButMain) => {
 
   butDelAll.onclick = () => {
     allTask = [];
-    localStorage.clear();
 
     render();
   }
@@ -139,6 +138,7 @@ const createCheckbox = (container, index) => {
 
   checkBox.onclick = async () => {
     allTask[index].isCheck = !allTask[index].isCheck;
+    const {id, isCheck} = allTask[index];
     const resp = await fetch('http://localhost:8000/updateTask', {
       method: 'PATCH',
       headers: {
@@ -146,11 +146,12 @@ const createCheckbox = (container, index) => {
         'Access-Control-Allow-Origin': '*'
       },
       body: JSON.stringify({
-        id: allTask[index].id,
-        isCheck: allTask[index].isCheck,
+        id: id,
+        isCheck: isCheck,
       })
     });
-    let result = await resp.json();
+    const result = await resp.json();
+    allTask = result.data;
 
     render();
   }
@@ -211,20 +212,24 @@ const createButtonDone = (containBut, input, index) => {
     allTask[index].checkButtPen = false;
     input.value = input.value.trim();
 
-    if (input.value) allTask[index].text = input.value;
+    if (input.value) {
+      allTask[index].text = input.value;
+      const {id, text} = allTask[index];
 
-    const resp = await fetch('http://localhost:8000/updateTask', {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-        'Access-Control-Allow-Origin': '*'
-      },
-      body: JSON.stringify({
-        id: allTask[index].id,
-        text: allTask[index].text,
-      })
-    });
-    let result = await resp.json();
+      const resp = await fetch('http://localhost:8000/updateTask', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+          'Access-Control-Allow-Origin': '*'
+        },
+        body: JSON.stringify({
+          id: id,
+          text: text,
+        })
+      });
+      const result = await resp.json();
+      allTask = result.data;
+    }
 
     render();
   };
@@ -253,7 +258,7 @@ const onClickButtonDel = async (index) => {
   const resp = await fetch(`http://localhost:8000/deleteTask?id=${allTask[index].id}`, {
     method: 'DELETE'
   });
-  let result = await resp.json();
+  const result = await resp.json();
   allTask = result.data;
 
   render();
