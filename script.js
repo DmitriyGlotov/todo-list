@@ -139,6 +139,18 @@ const createCheckbox = (container, index) => {
 
   checkBox.onclick = async () => {
     allTask[index].isCheck = !allTask[index].isCheck;
+    const resp = await fetch('http://localhost:8000/updateTask', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        'Access-Control-Allow-Origin': '*'
+      },
+      body: JSON.stringify({
+        id: allTask[index].id,
+        isCheck: allTask[index].isCheck,
+      })
+    });
+    let result = await resp.json();
 
     render();
   }
@@ -195,11 +207,24 @@ const createButtonDone = (containBut, input, index) => {
   butDone.type = 'image';
   butDone.src = 'images/check.png';
 
-  butDone.onclick = () => {
+  butDone.onclick = async () => {
     allTask[index].checkButtPen = false;
     input.value = input.value.trim();
 
     if (input.value) allTask[index].text = input.value;
+
+    const resp = await fetch('http://localhost:8000/updateTask', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        'Access-Control-Allow-Origin': '*'
+      },
+      body: JSON.stringify({
+        id: allTask[index].id,
+        text: allTask[index].text,
+      })
+    });
+    let result = await resp.json();
 
     render();
   };
