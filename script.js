@@ -138,17 +138,14 @@ const createCheckbox = (container, index) => {
 
   checkBox.onclick = async () => {
     allTask[index].isCheck = !allTask[index].isCheck;
-    const {id, isCheck} = allTask[index];
+    const { id, isCheck } = allTask[index];
     const resp = await fetch('http://localhost:8000/updateTask', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
         'Access-Control-Allow-Origin': '*'
       },
-      body: JSON.stringify({
-        id: id,
-        isCheck: isCheck,
-      })
+      body: JSON.stringify({ id, isCheck })
     });
     const result = await resp.json();
     allTask = result.data;
@@ -214,7 +211,7 @@ const createButtonDone = (containBut, input, index) => {
 
     if (input.value) {
       allTask[index].text = input.value;
-      const {id, text} = allTask[index];
+      const { id, text } = allTask[index];
 
       const resp = await fetch('http://localhost:8000/updateTask', {
         method: 'PATCH',
@@ -222,10 +219,7 @@ const createButtonDone = (containBut, input, index) => {
           'Content-Type': 'application/json;charset=utf-8',
           'Access-Control-Allow-Origin': '*'
         },
-        body: JSON.stringify({
-          id: id,
-          text: text,
-        })
+        body: JSON.stringify({ id, text })
       });
       const result = await resp.json();
       allTask = result.data;
