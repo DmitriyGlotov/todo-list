@@ -1,15 +1,21 @@
-let allTask = JSON.parse(localStorage.getItem('tasks')) || [];
+let allTask = [];
 let valueInput = '';
 let input = null;
 let flagDell = true;
 
-window.onload =  init = () =>  {
+window.onload =  init = async () =>  {
   input = document.getElementById('add-task');
   input.addEventListener('change', updateValue);
+  const resp = await fetch('http://localhost:8000/allTasks', {
+    method: 'GET'
+  });
+  const result = await resp.json();
+  allTask = result.data;
+
   render();
 }
 
-const onClickButton = () => {
+const onClickButton = async () => {
   valueInput = valueInput.trim();
   if (valueInput) {
     allTask.push({
@@ -17,9 +23,23 @@ const onClickButton = () => {
       isCheck: false,
       checkButtPen: false,
     });
-    localStorage.setItem('tasks', JSON.stringify(allTask));
+    const resp = await fetch('http://localhost:8000/createTask', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        'Access-Control-Allow-Origin': '*'
+      },
+      body: JSON.stringify({
+        text: valueInput,
+        isCheck: false,
+        checkButtPen: false,
+      })
+    });
+    const result = await resp.json();
+    allTask = result.data;
     valueInput = '';
     input.value = '';
+
     render();
   } else {
     valueInput = '';
@@ -30,22 +50,8 @@ const onClickButton = () => {
 
 document.getElementById('add-task').addEventListener('keydown', (e) => {
   if (e.key === 'Enter') {
-    valueInput = e.target.value.trim();
-    if (valueInput) {
-      allTask.push({
-        text: valueInput,
-        isCheck: false,
-        checkButtPen: false,
-      });
-      localStorage.setItem('tasks', JSON.stringify(allTask));
-      valueInput = '';
-      input.value = '';
-      render();
-    } else {
-      valueInput = '';
-      input.value = '';
-      alert ('ERROR');
-    }
+    valueInput = e.target.value;
+    onClickButton();
   }
 });
 
@@ -117,7 +123,6 @@ const createButtonDelAll = (containButMain) => {
 
   butDelAll.onclick = () => {
     allTask = [];
-    localStorage.clear();
 
     render();
   }
@@ -131,9 +136,19 @@ const createCheckbox = (container, index) => {
   checkBox.className = 'but';
   checkBox.src = `images/${allTask[index].isCheck ? 'checkBoxDone' : 'checkBox'}.png`
 
-  checkBox.onclick = () => {
+  checkBox.onclick = async () => {
     allTask[index].isCheck = !allTask[index].isCheck;
-    localStorage.setItem('tasks', JSON.stringify(allTask));
+    const { id, isCheck } = allTask[index];
+    const resp = await fetch('http://localhost:8000/updateTask', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        'Access-Control-Allow-Origin': '*'
+      },
+      body: JSON.stringify({ id, isCheck })
+    });
+    const result = await resp.json();
+    allTask = result.data;
 
     render();
   }
@@ -177,7 +192,6 @@ const createButtonCancel = (containBut, index) => {
 
   butCanc.onclick = () => {
     allTask[index].checkButtPen = false;
-    localStorage.setItem('tasks', JSON.stringify(allTask));
 
     render();
   }
@@ -191,12 +205,25 @@ const createButtonDone = (containBut, input, index) => {
   butDone.type = 'image';
   butDone.src = 'images/check.png';
 
-  butDone.onclick = () => {
+  butDone.onclick = async () => {
     allTask[index].checkButtPen = false;
     input.value = input.value.trim();
 
-    if (input.value) allTask[index].text = input.value;
-    localStorage.setItem('tasks', JSON.stringify(allTask));
+    if (input.value) {
+      allTask[index].text = input.value;
+      const { id, text } = allTask[index];
+
+      const resp = await fetch('http://localhost:8000/updateTask', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+          'Access-Control-Allow-Origin': '*'
+        },
+        body: JSON.stringify({ id, text })
+      });
+      const result = await resp.json();
+      allTask = result.data;
+    }
 
     render();
   };
@@ -207,7 +234,6 @@ const createButtonDone = (containBut, input, index) => {
       input.value = input.value.trim();
 
       if (input.value) allTask[index].text = input.value;
-      localStorage.setItem('tasks', JSON.stringify(allTask));
 
       render();
     }
@@ -218,22 +244,22 @@ const createButtonDone = (containBut, input, index) => {
 
 const onChangeCheckBox = index => {
   allTask[index].isCheck = !allTask[index].isCheck;
-  localStorage.setItem('tasks', JSON.stringify(allTask));
 
   render();
 }
 
-const onClickButtonDel = (index) => {
-  allTask.splice(index, 1);
-  localStorage.setItem('tasks', JSON.stringify(allTask));
+const onClickButtonDel = async (index) => {
+  const resp = await fetch(`http://localhost:8000/deleteTask?id=${allTask[index].id}`, {
+    method: 'DELETE'
+  });
+  const result = await resp.json();
+  allTask = result.data;
 
   render();
 }
 
 const onClickButtonPen = (index) => {
   allTask[index].checkButtPen= true;
-
-  localStorage.setItem('tasks', JSON.stringify(allTask));
 
   render();
 }
