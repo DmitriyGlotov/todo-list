@@ -121,8 +121,13 @@ const createButtonDelAll = (containButMain) => {
   butDelAll.src = 'images/delall.png';
   flagDell = false;
 
-  butDelAll.onclick = () => {
+  butDelAll.onclick = async () => {
     allTask = [];
+    const resp = await fetch('http://localhost:8000/deleteAllTask', {
+    method: 'DELETE'
+    });
+    const result = await resp.json();
+    allTask = result.data;
 
     render();
   }
@@ -138,14 +143,14 @@ const createCheckbox = (container, index) => {
 
   checkBox.onclick = async () => {
     allTask[index].isCheck = !allTask[index].isCheck;
-    const { id, isCheck } = allTask[index];
+    const { _id, isCheck } = allTask[index];
     const resp = await fetch('http://localhost:8000/updateTask', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
         'Access-Control-Allow-Origin': '*'
       },
-      body: JSON.stringify({ id, isCheck })
+      body: JSON.stringify({ _id, isCheck })
     });
     const result = await resp.json();
     allTask = result.data;
@@ -211,7 +216,7 @@ const createButtonDone = (containBut, input, index) => {
 
     if (input.value) {
       allTask[index].text = input.value;
-      const { id, text } = allTask[index];
+      const { _id, text } = allTask[index];
 
       const resp = await fetch('http://localhost:8000/updateTask', {
         method: 'PATCH',
@@ -219,7 +224,7 @@ const createButtonDone = (containBut, input, index) => {
           'Content-Type': 'application/json;charset=utf-8',
           'Access-Control-Allow-Origin': '*'
         },
-        body: JSON.stringify({ id, text })
+        body: JSON.stringify({ _id, text })
       });
       const result = await resp.json();
       allTask = result.data;
@@ -249,7 +254,7 @@ const onChangeCheckBox = index => {
 }
 
 const onClickButtonDel = async (index) => {
-  const resp = await fetch(`http://localhost:8000/deleteTask?id=${allTask[index].id}`, {
+  const resp = await fetch(`http://localhost:8000/deleteTask?_id=${allTask[index]._id}`, {
     method: 'DELETE'
   });
   const result = await resp.json();
